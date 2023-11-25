@@ -1,0 +1,16 @@
+import yaml
+from tradutor import traduzir_texto
+
+def traduzir_arquivo(arquivo_entrada, idioma_destino='pt'):
+    with open(arquivo_entrada, 'r', encoding='utf-8') as file:
+        dados = yaml.load(file, Loader=yaml.FullLoader)
+
+    for chave, valor in dados.items():
+        dados[chave] = traduzir_texto(valor, idioma_destino)
+
+    arquivo_saida = f'localization/{idioma_destino}.yml'
+    with open(arquivo_saida, 'w', encoding='utf-8') as file:
+        yaml.dump(dados, file, default_flow_style=False, allow_unicode=True)
+
+# Exemplo de uso
+traduzir_arquivo('localization/english.yml', 'pt')
